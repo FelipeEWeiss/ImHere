@@ -1,7 +1,11 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import { styles } from './styles';
 
-export const Participant = () => {
+interface IParticipantProps {
+  name: string;
+}
+
+export const Participant = ({ name }: IParticipantProps) => {
   const handleParticipantRemove = () => {
     console.log("Remove");
   }
@@ -9,7 +13,7 @@ export const Participant = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.name}>
-        Felipe
+        {name}
       </Text>
 
       <TouchableOpacity
