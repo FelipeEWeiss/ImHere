@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { FlatList, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { Participant } from '../../components/Participant';
 
@@ -8,39 +8,39 @@ import { styles } from './styles';
 export function Home() {
   const [participants, setParticipants] = useState([
     {
-      id: 1,
+      id: '1',
       name: 'Felipe'
     },
     {
-      id: 2,
+      id: '2',
       name: 'Ana'
     },
     {
-      id: 3,
+      id: '3',
       name: 'Ana'
     },
     {
-      id: 4,
+      id: '4',
       name: 'Ana'
     },
     {
-      id: 5,
+      id: '5',
       name: 'Ana'
     },
     {
-      id: 6,
+      id: '6',
       name: 'Ana'
     },
     {
-      id: 7,
+      id: '7',
       name: 'Ana'
     },
     {
-      id: 8,
+      id: '8',
       name: 'Ana'
     },
     {
-      id: 9,
+      id: '9',
       name: 'Ana'
     },
   ]);
@@ -76,14 +76,22 @@ export function Home() {
         </TouchableOpacity>
       </View>
 
-      <ScrollView showsVerticalScrollIndicator={false}>
-        { participants.map(participant => (
+      <FlatList
+        data={participants}
+        keyExtractor={item => item.id}
+        renderItem={({ item }) => (
           <Participant
-            key={participant.id}
-            name={participant.name}
+            key={item.id}
+            name={item.name}
           />
-        ))}
-      </ScrollView>
+        )}
+        showsVerticalScrollIndicator={false}
+        ListEmptyComponent={() => (
+          <Text style={styles.listEmptyText}>
+            Ninguêm chegou no evento ainda? Adicione participantes à sua lista de presença.
+          </Text>
+        )}
+      />
     </View>
   )
 }
