@@ -1,11 +1,17 @@
 import { useState } from 'react';
-import { FlatList, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, FlatList, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { Participant } from '../../components/Participant';
 
 import { styles } from './styles';
 
+export interface ParticipantRemoveProps {
+  id: string;
+  name: string;
+}
+
 export function Home() {
+  const [participantName, setParticipantName] = useState('');
   const [participants, setParticipants] = useState([
     {
       id: '1',
@@ -15,38 +21,29 @@ export function Home() {
       id: '2',
       name: 'Ana'
     },
-    {
-      id: '3',
-      name: 'Ana'
-    },
-    {
-      id: '4',
-      name: 'Ana'
-    },
-    {
-      id: '5',
-      name: 'Ana'
-    },
-    {
-      id: '6',
-      name: 'Ana'
-    },
-    {
-      id: '7',
-      name: 'Ana'
-    },
-    {
-      id: '8',
-      name: 'Ana'
-    },
-    {
-      id: '9',
-      name: 'Ana'
-    },
   ]);
 
   const handleParticipantAdd = () => {
-    console.log("Adicionar");
+    const newParticipant = {
+      id: Date.now().toString(36),
+      name: participantName
+    };
+
+    setParticipants(prevState => [...prevState, newParticipant]);
+    setParticipantName('');
+  }
+
+  const handleParticipantRemove = (item: ParticipantRemoveProps) => {
+    Alert.alert('Remover', `Remover o participante ${item.name}?`, [
+      {
+        text: 'Sim',
+        onPress: () => setParticipants(prevState => prevState.filter(participant => participant.id !== item.id))
+      },
+      {
+        text: 'Não',
+        style: 'cancel'
+      }
+    ])
   }
 
   return (
@@ -64,6 +61,8 @@ export function Home() {
           style={styles.input}
           placeholder="Nome do participante"
           placeholderTextColor="#6B6B6B"
+          value={participantName}
+          onChangeText={setParticipantName}
         />
 
         <TouchableOpacity
@@ -82,7 +81,8 @@ export function Home() {
         renderItem={({ item }) => (
           <Participant
             key={item.id}
-            name={item.name}
+            data={item}
+            removeParticipant={handleParticipantRemove}
           />
         )}
         showsVerticalScrollIndicator={false}

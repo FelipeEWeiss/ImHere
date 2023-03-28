@@ -1,29 +1,28 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
+import { ParticipantRemoveProps } from '../../screens/Home';
 import { styles } from './styles';
 
+
 interface IParticipantProps {
-  name: string;
+  data: ParticipantRemoveProps;
+  removeParticipant: (data: ParticipantRemoveProps) => void;
 }
 
-export const Participant = ({ name }: IParticipantProps) => {
-  const handleParticipantRemove = () => {
-    console.log("Remove");
-  }
-
+export const Participant = ({ data, removeParticipant }: IParticipantProps) => {
   return (
     <View style={styles.container}>
       <Text style={styles.name}>
-        {name}
+        {data.name}
       </Text>
 
       <TouchableOpacity
-          style={styles.button}
-          onPress={handleParticipantRemove}
-        >
-          <Text style={styles.buttonText}>
-            -
-          </Text>
-        </TouchableOpacity>
+        style={styles.button}
+        onPress={() => removeParticipant(data)}
+      >
+        <Text style={styles.buttonText}>
+          -
+        </Text>
+      </TouchableOpacity>
     </View>
   )
 }
